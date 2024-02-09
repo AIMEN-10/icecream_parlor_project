@@ -33,54 +33,42 @@ namespace icecream_parlor_project
         {
             string username1 = textBox1.Text;
             string password1 = textBox2.Text;
-            Authentication auth = new Authentication();
 
-            // Authenticate the user
-            User authenticatedUser = auth.AuthenticateUser(username1, password1);
-
-            if (authenticatedUser != null)
+            if (username1 == String.Empty || password1 == String.Empty)
             {
-                Console.WriteLine("Welcome, " + authenticatedUser.Name);
+                MessageBox.Show("Please fill the empty spaces");
             }
             else
             {
-                Console.WriteLine("Invalid credentials");
+                Logic obj = new Logic();
+                DataTable r = obj.loginAdmin(username1);
+
+                if (r != null && r.Rows.Count > 0)
+                {
+                    string storedPassword = r.Rows[0]["password"].ToString();
+
+                    if (storedPassword == password1)
+                    {
+                        this.Hide();
+                        Form7 f = new Form7();
+                        f.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong password");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Username not found!");
+                }
+
+
+
+
             }
-            //if (username1 == String.Empty || password1 == String.Empty)
-            //{
-            //    MessageBox.Show("Please fill the empty spaces");
-            //}
-            //else
-            //{
-            //    Logic obj = new Logic();
-            //    DataTable r = obj.loginAdmin(username1);
 
-            //    if (r != null && r.Rows.Count > 0)
-            //    {
-            //        string storedPassword = r.Rows[0]["password"].ToString();
-
-            //        if (storedPassword == password1)
-            //        {
-            //            this.Hide();
-            //            Form7 f = new Form7();
-            //            f.Show();
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show("Wrong password");
-            //        }
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Username not found!");
-            //    }
-
-
-
-
-
-
-        }
+            }
 
         private void bunifuThinButton22_Click(object sender, EventArgs e)
         {

@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin.cs" />
-    <Compile Include="Authentication.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="AdminDisplay.cs" />
     <Compile Include="Customer.cs" />
