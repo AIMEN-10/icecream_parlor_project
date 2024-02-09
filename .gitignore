@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/icecream_parlor_project.sln
+/Business Layer/Business Layer.csproj
+/Business Layer/Admin.cs
