@@ -44,8 +44,8 @@ namespace icecream_parlor_project
                 }
                 else if (!Regex.IsMatch(textBox3.Text, "^[A-Z0-9]{3,30}$"))
                 {
-                    label9.Text = "Username" +
-                        "must contain digits and uppercase case alphabets. ";
+                    label9.Text = "Username " +
+                        "should contain digits and uppercase case alphabets. ";
                     label9.ForeColor = System.Drawing.Color.Red;
                     label9.Visible = true;
                     textBox3.Focus();
@@ -69,7 +69,14 @@ namespace icecream_parlor_project
                         username = textBox2.Text,
                         password = textBox3.Text,
                     };
-                    obj.SaveAdmin(a);
+                    //obj.SaveAdmin(a);
+                    var parameters = new Dictionary<string, object>
+        {
+            { "@Email", a.email },
+            { "@username", a.username },
+            { "@password", a.password }
+        };
+                    obj.SaveAdmin( parameters);
                     MessageBox.Show("WELCOME");
                     this.Hide();
                     Form5 f = new Form5();

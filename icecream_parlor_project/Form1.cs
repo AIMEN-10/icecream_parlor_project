@@ -73,11 +73,18 @@ namespace icecream_parlor_project
 
         private void guna2DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 2 && e.RowIndex >= 0)
+            try
             {
-              
-                guna2DataGridView1.Rows.RemoveAt(e.RowIndex);
-                temp.RemoveAt(e.RowIndex);
+                if (e.ColumnIndex == 2 && e.RowIndex >= 0)
+                {
+
+                    guna2DataGridView1.Rows.RemoveAt(e.RowIndex);
+                    temp.RemoveAt(e.RowIndex);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Item removed");
             }
             
         }
@@ -101,18 +108,38 @@ namespace icecream_parlor_project
 
             int id= int.Parse(label3.Text);
             DateTime date = DateTime.Parse(label4.Text);
-            obj.order(date,id,sum);
-           
+            //obj.order(date,id,sum);
+            var parameters = new Dictionary<string, object>
+        {
+            { "@date", date },
+            { "@id", id },
+            { "@bill",sum }
+        };
+            obj.order(parameters);
             for (int i = 0; i < guna2DataGridView1.Rows.Count ; i++)
             {
                 string val = guna2DataGridView1.Rows[i].Cells[0].Value?.ToString();
                 string detail = temp[i].Howmuch;
                 int quant= temp[i].Quantity;
-                obj.order_name(id,val,detail,quant);
+                var o_parameters = new Dictionary<string, object>
+        {
+            { "@id", id },
+            { "@val", val },
+            { "@detail",detail },
+                    {"quant",quant }
+        };
+                obj.order_name(o_parameters);
             }
             this.Hide();
-            Form9 f = new Form9(sum);
-            f.Show();
+            if (sum == 0)
+            {
+                MessageBox.Show("Please purchase something first ...");
+            }
+            else
+            {
+                Form9 f = new Form9(sum);
+                f.Show();
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -120,7 +147,11 @@ namespace icecream_parlor_project
             Logic obj = new Logic();
             try
             {
-                DataTable r = obj.id();
+                var o_parameters = new Dictionary<string, object>
+                {
+                  { "@id", 1 },
+                };
+                DataTable r = obj.id(o_parameters);
                 if (r == null)
                 {
                     label3.Text = 1.ToString();

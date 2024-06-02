@@ -18,15 +18,23 @@ namespace icecream_parlor_project
         {
             InitializeComponent();
             Logic obj = new Logic();
+            var o_parameters = new Dictionary<string, object>
+                {
+                  { "@a", "order_time" },
+                  { "@b", "order_id" }
+                };
 
-           
-            DataTable r = obj.AdminView();
+            DataTable r = obj.AdminView(o_parameters);
             listView1.Items.Clear();
 
             foreach (DataRow row in r.Rows)
             {
-                
-                DataTable r1 = obj.AdminViewOrdername(int.Parse(row["order_id"].ToString()));
+                var parameters = new Dictionary<string, object>
+                {
+                  { "@a", int.Parse(row["order_id"].ToString()) }
+                 
+                };
+                DataTable r1 = obj.AdminViewOrdername(parameters);
                 List<Display> name = new List<Display>(); 
 
                 foreach (DataRow row1 in r1.Rows)
@@ -81,22 +89,19 @@ namespace icecream_parlor_project
 
             foreach (ListViewItem item in listView1.Items)
             {
-                // Compare the text of the first sub-item (index 0) with the search text
                 if (item.SubItems.Count > 0 && item.SubItems[1].Text.ToLower() == s)
                 {
-                    matchingItems.Add(item); // Add matching items to the list
+                    matchingItems.Add(item);
                 }
             }
             listView1.Items.Clear();
 
-            // Add matching items back to the ListView
             foreach (var matchingItem in matchingItems)
             {
                 listView1.Items.Add(matchingItem);
             }
 
-            // Ensure the ListView displays the selected item (if found)
-            if (listView1.Items.Count > 0)
+             if (listView1.Items.Count > 0)
             {
                 listView1.Items[0].Selected = true;
                 listView1.Items[0].EnsureVisible();
@@ -106,6 +111,7 @@ namespace icecream_parlor_project
 
         private void label4_Click(object sender, EventArgs e)
         {
+            this.Hide();
             Form8 form8 = new Form8();
             form8.Show();
         }

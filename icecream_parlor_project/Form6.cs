@@ -23,8 +23,7 @@ namespace icecream_parlor_project
         public static string value;
         BindingList<Customer> customers = new BindingList<Customer>();
         BindingList<AdminDisplay> admin = new BindingList<AdminDisplay>();
-
-
+        
         Logic obj=new Logic();
         public Form6(BindingList<Customer> receivedList)
         {
@@ -54,7 +53,14 @@ namespace icecream_parlor_project
             {
                 comboBox[i].Items.Clear();
             }
-            DataTable r = obj.blizzard("sandwitch");
+            var parameters = new Dictionary<string, object>
+        {
+            { "@s","sandwitch" },
+             { "@p","sandwitches" },
+
+        };
+            
+            DataTable r = obj.blizzard(parameters);
             int j = 0;
             
             for (int i = 0; i < label.Length; i++)
@@ -122,7 +128,14 @@ namespace icecream_parlor_project
             {
                 comboBox[i].Items.Clear();
             }
-            DataTable r = obj.blizzard("cone");
+            var parameters = new Dictionary<string, object>
+        {
+            { "@s","cone" },
+             { "@p","cones" },
+
+        };
+
+            DataTable r = obj.blizzard(parameters);
             int j = 0;
             for (int i = 0; i < label.Length; i++)
             {
@@ -261,7 +274,14 @@ namespace icecream_parlor_project
             {
                 comboBox[i].Items.Clear();
             }
-            DataTable r = obj.blizzard("blizzard");
+            var parameters = new Dictionary<string, object>
+        {
+            { "@s","blizzard" },
+             { "@p","blizzards" },
+
+        };
+
+            DataTable r = obj.blizzard(parameters);
             int j = 0;
             for (int i = 0; i < label.Length; i++)
             {
@@ -296,7 +316,14 @@ namespace icecream_parlor_project
             {
                 comboBox[i].Items.Clear();
             }
-            DataTable r = obj.blizzard("sundae");
+            var parameters = new Dictionary<string, object>
+        {
+            { "@s","sundae" },
+             { "@p","sundaes" },
+
+        };
+
+            DataTable r = obj.blizzard(parameters);
             int j = 0;
             for (int i = 0; i < label.Length; i++)
             {
@@ -330,7 +357,14 @@ namespace icecream_parlor_project
             {
                 comboBox[i].Items.Clear();
             }
-            DataTable r = obj.blizzard("cup");
+            var parameters = new Dictionary<string, object>
+        {
+            { "@s","cup" },
+             { "@p","cups" },
+
+        };
+
+            DataTable r = obj.blizzard(parameters);
             int j = 0;
             for (int i = 0; i < label.Length; i++)
             {
@@ -364,7 +398,14 @@ namespace icecream_parlor_project
             {
                 comboBox[i].Items.Clear();
             }
-            DataTable r = obj.diff();
+            var parameters = new Dictionary<string, object>
+        {
+            { "@s","stick" },
+             { "@p","popsicles" },
+
+        };
+
+            DataTable r = obj.blizzard(parameters);
             int j = 0;
             for (int i = 0; i < label.Length; i++)
             {
@@ -398,7 +439,19 @@ namespace icecream_parlor_project
             {
                 comboBox[i].Items.Clear();
             }
-            DataTable r = obj.novelties();
+            var parameters = new Dictionary<string, object>
+        {
+            { "@a","macrones" },
+             { "@b","mochi" },
+             { "@c","pies" },
+             { "@d","bombs" },
+             { "@e","tacos" },
+             { "@f","screwballs" }
+
+        };
+
+            
+            DataTable r = obj.novelties(parameters);
             int j = 0;
             for (int i = 0; i < label.Length; i++)
             {
@@ -693,6 +746,11 @@ namespace icecream_parlor_project
         private void label13_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void Form6_Load(object sender, EventArgs e)
+        {
+
         }
     }
    

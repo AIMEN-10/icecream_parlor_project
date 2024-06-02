@@ -42,9 +42,9 @@ namespace icecream_parlor_project
                 //    MessageBox.Show("Please enter complete credentials...");
                 //    return;
                 //}
-             if (!Regex.IsMatch(textBox1.Text, "^[a-zA-Z]{5,100}$") )
+             if (!Regex.IsMatch(textBox1.Text, "^[A-Z ]{5,100}$") )
             {
-                label12.Text = "Please enter a valid name";
+                label12.Text = "The input must be 5 to 100 uppercase letters.";
                 label12.ForeColor = System.Drawing.Color.Red;
                 label12.Visible = true;
                 textBox1.Focus();
@@ -82,8 +82,17 @@ namespace icecream_parlor_project
                         familyP = int.Parse(textBox4.Text),
                         Path = openFileDialog1.FileName,
                     };
-                    obj.SaveProduct(p1);
-                    DataTable r = obj.showproduct(p1.name);
+                    var parameters = new Dictionary<string, object>
+        {
+            { "@name",p1.name },
+            { "@singleP", p1.singleP },
+            { "@doubleP", p1.doubleP },
+            { "@familyP", p1.familyP },
+            { "@Path", p1.Path },
+        };
+                    obj.SaveProduct(parameters);
+                   
+                    DataTable r = obj.showproduct(parameters);
                     if (r.Rows[0]["name"] == null)
                     {
                         MessageBox.Show("Mismatch catgory...Please enter correct spelling...");
@@ -140,9 +149,9 @@ namespace icecream_parlor_project
             //    MessageBox.Show("Please enter complete credentials...");
             //    return;
             //}
-            if (!Regex.IsMatch(textBox1.Text, "^[a-zA-Z]{5,100}$"))
+            if (!Regex.IsMatch(textBox1.Text, "^[A-Z ]{5,100}$"))
             {
-                label12.Text = "Please enter a valid name";
+                label12.Text = "The input must be 5 to 100 uppercase letters.";
                 label12.ForeColor = System.Drawing.Color.Red;
                 label12.Visible = true;
                 textBox1.Focus();
@@ -180,8 +189,17 @@ namespace icecream_parlor_project
                         familyP = int.Parse(textBox4.Text),
                         Path = openFileDialog1.FileName,
                     };
-                    obj.Updateproduct(p1);
-                    DataTable r = obj.showproduct(p1.name);
+                    var p_parameters = new Dictionary<string, object>
+        {
+            { "@name",p1.name },
+            { "@singleP", p1.singleP },
+            { "@doubleP", p1.doubleP },
+            { "@familyP", p1.familyP },
+            { "@Path", p1.Path }
+
+        };
+                    obj.Updateproduct(p_parameters);
+                    DataTable r = obj.showproduct(p_parameters);
                     if (r.Rows[0]["name"] == null)
                     {
                         MessageBox.Show("Mismatch catgory...Please enter correct spelling...");
@@ -257,27 +275,43 @@ namespace icecream_parlor_project
                 {
 
                     string name = textBox5.Text;
-                     
-                    obj.delete(name);
-                    for (int i = 0; i < guna2DataGridView1.Rows.Count; i++) 
+                    var parameters = new Dictionary<string, object>
+        {
+            { "@name",name },
+           
+
+        };
+                    
+                    int r=obj.delete(parameters);
+                    if (r == -1)
                     {
-                        if (guna2DataGridView1[0,i].Value.ToString()==name)
-                        {
-                            guna2DataGridView1.Rows.RemoveAt(i);
-                            break;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Product deleted...");
-                        }
+                        MessageBox.Show("Product not Found!");
                     }
-                       
+                    else
+                    {
+                        for (int i = 0; i < guna2DataGridView1.Rows.Count; i++)
+                        {
+
+                            if (guna2DataGridView1[0, i].Value == null || guna2DataGridView1[0, i].Value.ToString() == string.Empty)
+                            {
+
+                                MessageBox.Show("Product deleted...");
+                                break;
+                            }
+                            else if (guna2DataGridView1[0, i].Value.ToString() == name)
+                            {
+                                guna2DataGridView1.Rows.RemoveAt(i);
+                                MessageBox.Show("Product deleted...");
+                                break;
+                            }
+                        }
+                    }  
                     
                 }
                 catch (Exception es)
                 {
                     
-                    MessageBox.Show("Mismatch catgory...Please enter correct spelling...");
+                    MessageBox.Show(es.Message);
 
                 }
 

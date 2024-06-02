@@ -5,6 +5,7 @@ using System.Linq;
 using System.Data;
 using System.Windows.Forms;
 using Microsoft.VisualBasic.ApplicationServices;
+using System.Collections.Generic;
 
 namespace icecream_parlor_project
 {
@@ -23,17 +24,18 @@ namespace icecream_parlor_project
             textBox1.Focus();
         }
 
-       
-
-       
-
-       
-
         private void bunifuThinButton21_Click(object sender, EventArgs e)
         {
             string username1 = textBox1.Text;
             string password1 = textBox2.Text;
+            var parameters = new Dictionary<string, object>
+        {
+           
+            { "@username", username1 },
+                {"@password","password" },
+            
 
+        };
             if (username1 == String.Empty || password1 == String.Empty)
             {
                 MessageBox.Show("Please fill the empty spaces");
@@ -41,8 +43,10 @@ namespace icecream_parlor_project
             else
             {
                 Logic obj = new Logic();
-                DataTable r = obj.loginAdmin(username1);
-
+                
+                DataTable r = obj.loginAdmin(parameters);
+                //Form7 f = new Form7();
+                //f.Show();
                 if (r != null && r.Rows.Count > 0)
                 {
                     string storedPassword = r.Rows[0]["password"].ToString();
@@ -68,7 +72,7 @@ namespace icecream_parlor_project
             }
 
 
-            }
+        }
 
         private void bunifuThinButton22_Click(object sender, EventArgs e)
         {
@@ -97,6 +101,13 @@ namespace icecream_parlor_project
             {
                 string username1 = textBox1.Text;
                 string password1 = textBox2.Text;
+                var parameters = new Dictionary<string, object>
+        {
+
+            { "@username", username1 },
+             {"@password","password" }
+
+        };
                 if (username1 == String.Empty || password1 == String.Empty)
                 {
                     MessageBox.Show("Please fill the empty spaces");
@@ -104,7 +115,7 @@ namespace icecream_parlor_project
                 else
                 {
                     Logic obj = new Logic();
-                    DataTable r = obj.loginAdmin(username1);
+                    DataTable r = obj.loginAdmin(parameters);
 
                     if (r != null && r.Rows.Count > 0)
                     {
