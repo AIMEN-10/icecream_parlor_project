@@ -6,6 +6,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -111,7 +113,7 @@ namespace icecream_parlor_project
                 catch(Exception ex)
                 {
                     
-                    MessageBox.Show("Mismatch catgory...Please enter correct spelling...");
+                    MessageBox.Show(ex.Message);
                    
                 }
 
@@ -218,7 +220,7 @@ namespace icecream_parlor_project
                 catch(Exception es)
                 {
                     
-                    MessageBox.Show("Mismatch catgory...Please enter correct spelling...");
+                    MessageBox.Show("Product not Found");
 
                 }
 
@@ -329,6 +331,51 @@ namespace icecream_parlor_project
         private void label10_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form2 f = new Form2();
+            f.Show();
+        }
+
+        private void guna2Button5_Click(object sender, EventArgs e)
+        {
+            var p_parameters = new Dictionary<string, object>
+        {
+            { "@name",textBox6.Text },
+            { "@singleP", ""  },
+            { "@doubleP", ""  },
+            { "@familyP", "" },
+            { "@Path", "" }
+
+        };
+            DataTable r = obj.showproduct(p_parameters);
+            if (r.Rows.Count == 0)
+            {
+                MessageBox.Show("Product Not Found");
+
+            }
+            else if (r.Rows[0]["name"] == null)
+            {
+                MessageBox.Show("Mismatch catgory...Please enter correct spelling...");
+
+            }
+            else
+            {
+                try {
+                    int index = guna2DataGridView1.Rows.Add();
+                    guna2DataGridView1[0, index].Value = r.Rows[0]["name"];
+                    guna2DataGridView1[1, index].Value = r.Rows[0]["singleP"];
+                    guna2DataGridView1[2, index].Value = r.Rows[0]["doubleP"];
+                    guna2DataGridView1[3, index].Value = r.Rows[0]["familyP"];
+                    guna2DataGridView1[4, index].Value = r.Rows[0]["path"];
+                }catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
     }
 }
