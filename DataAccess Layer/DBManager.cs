@@ -11,7 +11,7 @@ namespace DataAccess_Layer
 {
     public class DBManager
     {
-        static string conString = @"Data source=DESKTOP-VBKRVAQ;initial catalog=icecreamProject;integrated security=true;";
+        static string conString = @"Data source= ;initial catalog= ;integrated security=true;";
         public int IUD(String query)
         {
             SqlConnection con=new SqlConnection(conString);
